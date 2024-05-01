@@ -13,7 +13,7 @@ class User:
         return f"User id: {self.__user_id}\nName: {self.name}\nUsername: {self.username}\nPassword: {self.password}\nJob: {self.job}"
 
     @classmethod
-    def get(cls):
+    def get_user(cls):
         user_id = int(input("User_id: "))
         name = input("Name: ")
         username = input("Username: ")
