@@ -7,7 +7,6 @@ class User:
 
     #We declare the constructor method
     def __init__(self, user_id:int, name:str, username:str, password:str, job:str):
-
         self.__user_id = user_id
         self.name = name
         self.username = username
@@ -78,6 +77,51 @@ class User:
         ...
 
 #---------------------------------------------------------------------------------------------------------------
+#                                            Class Manufacturer
+#---------------------------------------------------------------------------------------------------------------
+class Manufacturer:
+    #We declare the contructor method
+    def __init__(self, manufacturer_id, name, address):
+        self.__manufacturer_id = manufacturer_id
+        self.manufacturer_name = name
+        self.manufacturer_address = address
+    
+    def __str__(self):
+        return f"Id:{self.__manufacturer_id}\nName:{self.manufacturer_name}\nAddress:{self.manufacturer_address}"
+    
+    @classmethod
+    def get_manufacturer(cls):
+        manufacturer_id = int(input("manufacturer_id: "))
+        manufacturer_name = input("name: ")
+        manufacturer_address = input("address: ")
+        return cls(manufacturer_id, manufacturer_name, manufacturer_address)
+    
+    @property
+    def manufacturer_name(self):
+        return self._manufacturer_name
+    @manufacturer_name.setter
+    def manufacturer_name(self, name):
+        if not name:
+            raise ValueError("Missing Name...")
+        self._manufacturer_name = name
+    
+    @property
+    def manufacturer_address(self):
+        return self._manufacturer_address
+    @manufacturer_address.setter
+    def manufacturer_address(self, address):
+        if not address:
+            raise ValueError("Missing Address...")
+        self._manufacturer_address = address
+    
+    def insert_manufact_db(self, db):
+        ...
+    def update_manufact_db(self, db):
+        ...
+    def delete_manufact_db(self, db):
+        ...
+
+#---------------------------------------------------------------------------------------------------------------
 #                                          SubClass Transaction_Register
 #---------------------------------------------------------------------------------------------------------------
 class Transaction_Register(User):
@@ -87,8 +131,7 @@ class Transaction_Register(User):
                "generate certificate", "edit certificate", "approve certificate"]
     
     def __init__(self, user_id:int, username:str, job:str, transaction_id:int, action:str, description:str,
-                 date:str, hour:str, name:str="disabled", password:str="disabled"):
-        
+                 date:str, hour:str, name:str="disabled", password:str="disabled"): 
         super().__init__(user_id, name, username, password, job)
         self.__transaction_id = transaction_id
         self.action = action
@@ -97,7 +140,7 @@ class Transaction_Register(User):
         self.hour = hour
     
     def __str__(self):
-        return f"User id:{self.__user_id}\nUsername:{self.username}\nUser Job:{self.job}\nTransaction id:{self.__transaction_id}\nAction:{self.action}\nDescription:{self.description}\nDate:{self.date}\nHour:{self.hour}"
+        return f"Username:{self.username}\nUser Job:{self.job}\nTransaction id:{self.__transaction_id}\nAction:{self.action}\nDescription:{self.description}\nDate:{self.date}\nHour:{self.hour}"
     
     @classmethod
     def get_transaction(cls):
@@ -122,7 +165,7 @@ class Transaction_Register(User):
                "generate certificate", "edit certificate", "approve certificate"]
               
         if not action or action.lower() not in actions:
-            raise ValueError("Missing Action...")
+            raise ValueError(f"Invalid Action {action}...")
         self._action = action
     
     @property
@@ -168,8 +211,7 @@ class Product:
 
     #We declare the constructor method
     def __init__(self, register_number:str, product_name:str, active:str, description:str, batch_number:str, batch_size:int, presentation:str,
-                 quantity:str, manufacture_date:str, due_date:str):
-        
+                 quantity:str, manufacture_date:str, due_date:str):  
         self.__register_number = register_number
         self.product_name = product_name
         self.active = active
@@ -302,7 +344,6 @@ class Machine:
 
     #We declare the constructor method
     def __init__(self, machine_name:str, machine_id:int, operator:str, reference:str, branch:str):
-
         self.machine_name = machine_name
         self.__machine_id = machine_id
         self.operator = operator
