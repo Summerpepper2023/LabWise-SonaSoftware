@@ -1,17 +1,24 @@
+#---------------------------------------------------------------------------------------------------------------
+#                                            Class User
+#---------------------------------------------------------------------------------------------------------------
 class User:
-    
+    #We declare the avialable jobs for a user
     jobs = ["admin", "analist", "BPM"]
 
+    #We declare the constructor method
     def __init__(self, user_id:int, name:str, username:str, password:str, job:str):
+
         self.__user_id = user_id
         self.name = name
         self.username = username
         self.password = password
         self.job = job
     
+    #Print method
     def __str__(self):
         return f"User id: {self.__user_id}\nName: {self.name}\nUsername: {self.username}\nPassword: {self.password}\nJob: {self.job}"
 
+    #Class method for asking user's attributes and construct the object
     @classmethod
     def get_user(cls):
         user_id = int(input("User_id: "))   
@@ -22,6 +29,7 @@ class User:
         
         return cls(user_id, name, username, password, job)
     
+    #We declare the setters and getters of the properties (protected attributes)
     @property
     def name(self):
         return self._name
@@ -59,17 +67,25 @@ class User:
             raise ValueError(f"Invalid Job {job} is not recognized as a valid job...")
         self._job = job
     
+    #We declare an instance method for inserting the user to the users's database
     def insert_users_db(self, db):
         ...
+    #We declare an instance method for updating the user's information in the users's database
     def update_users_db(self, db):
         ...
+    #We declare an instance method for deleting the user of the users's database
     def delete_users_db(self, db):
         ...
 
 
+#---------------------------------------------------------------------------------------------------------------
+#                                            Class Product
+#---------------------------------------------------------------------------------------------------------------
 class Product:
-
+    #We declare a class variable that storages the avialable presentations of a product.
     presentations = ["ampolleta", "tabletas", "bioburden"]
+
+    #We declare the constructor method
     def __init__(self, register_number:str, product_name:str, active:str, description:str, batch_number:str, batch_size:int, presentation:str,
                  quantity:str, manufacture_date:str, due_date:str):
         
@@ -84,9 +100,11 @@ class Product:
         self.manufacture_date = manufacture_date
         self.due_date = due_date
 
+    #We declare a print method
     def __str__(self):
         return f"Register number:{self.__register_number}\nName:{self.product_name}\nActive:{self.active}\nDescription:{self.description}\nBatch_number:{self.batch_number}\nBatch Size:{self.batch_size}\nPresentation:{self.presentation}\nQuantitiy:{self.quantity}\nManufacture Date:{self.manufacture_date}\nDue Date:{self.due_date}"
     
+    #We declare a class method to get the product's attributes
     @classmethod
     def get_product(cls):
         register_number = input("Register Number: ")
@@ -102,6 +120,7 @@ class Product:
 
         return cls(register_number, product_name, active, description, batch_number, batch_size, presentation, quantity, manufacture_date, due_date)
     
+    #We declare the setters and getters of the properties (protected attributes)
     @property
     def product_name(self):
         return self._product_name
@@ -184,25 +203,36 @@ class Product:
             raise ValueError("Missing Due Date...")
         self._due_date = date
     
+    #We declare an instance method for inserting the product to the products's database
     def insert_products_db(self, db):
         ...
+    #We declare an instance method for updating the product's information in the products's database
     def update_products_db(self, db):
         ...
+    #We declare an instance method for deleting the product of the products's database
     def delete_products_db(self, db):
         ...
 
 
+#---------------------------------------------------------------------------------------------------------------
+#                                            Class Machine
+#---------------------------------------------------------------------------------------------------------------
 class Machine:
+
+    #We declare the constructor method
     def __init__(self, machine_name:str, machine_id:int, operator:str, reference:str, branch:str):
+
         self.machine_name = machine_name
         self.__machine_id = machine_id
         self.operator = operator
         self.reference = reference
         self.branch = branch
 
+    #We declare the print method
     def __str__(self):
         return (f"\nMachin Id:{self.__machine_id}\nMachine Name:{self.machine_name}\nOperator:{self.operator}\nReference:{self.reference}\nBranch:{self.branch}")
     
+    #We declare a class method to get the machine's attributes
     @classmethod
     def get_machine(cls):
         machine_id = int(input("Machine id: "))
@@ -212,6 +242,7 @@ class Machine:
         branch = input("Branch: ")
         return cls(machine_name, machine_id, operator, reference, branch)
     
+    #We declare the setters and getters of the properties (protected attributes)
     @property
     def machine_name(self):
         return self._machine_name
@@ -248,9 +279,12 @@ class Machine:
             raise ValueError("Missing branch...")
         self._branch = branch
     
+    #We declare an instance method for inserting the machine to the machines's database
     def insert_machines_db(self, db):
         ...
+    #We declare an instance method for updating the machine's information in the machines's database
     def update_machines_db(self, db):
         ...
+    #We declare an instance method for deleting the machine of the machines's database
     def delete_machines_db(self, db):
         ...
