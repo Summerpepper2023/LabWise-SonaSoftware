@@ -86,9 +86,11 @@ class Manufacturer:
         self.manufacturer_name = name
         self.manufacturer_address = address
     
+    #We declare the print method
     def __str__(self):
         return f"Id:{self.__manufacturer_id}\nName:{self.manufacturer_name}\nAddress:{self.manufacturer_address}"
     
+    #We declare a get method
     @classmethod
     def get_manufacturer(cls):
         manufacturer_id = int(input("manufacturer_id: "))
@@ -96,6 +98,7 @@ class Manufacturer:
         manufacturer_address = input("address: ")
         return cls(manufacturer_id, manufacturer_name, manufacturer_address)
     
+    #We declare the getters and setters
     @property
     def manufacturer_name(self):
         return self._manufacturer_name
@@ -114,11 +117,58 @@ class Manufacturer:
             raise ValueError("Missing Address...")
         self._manufacturer_address = address
     
+    #We declare an instance method for inserting the manufacturer to the manufacturers's database
     def insert_manufact_db(self, db):
         ...
+    #We declare an instance method for updating the manufacturer's info in the manufacturers's database
     def update_manufact_db(self, db):
         ...
+    #We declare an instance method for deleting the manufacturer from the manufacturers's database
     def delete_manufact_db(self, db):
+        ...
+
+#---------------------------------------------------------------------------------------------------------------
+#                                            Class Client
+#---------------------------------------------------------------------------------------------------------------
+class Client:
+    def __init__(self, client_id:int, name:str, address:str):
+            self.__client_id  = client_id
+            self.client_name = name
+            self.client_address = address
+
+    def __str__(self):
+         return f"Client Id:{self.__client_id}\nName:{self.client_name}\nAddress:{self.client_address}"
+    
+    @classmethod
+    def get_client(cls):
+            client_id = int(input("Client id: "))
+            client_name = input("Client Name: ")
+            client_address = input("Clien Address: ")
+            return cls(client_id, client_name, client_address)
+    
+    @property
+    def client_name(self):
+        return self._client_name
+    @client_name.setter
+    def client_name(self, name):
+        if not name:
+            raise ValueError("Missing Name...")
+        self._client_name = name
+
+    @property
+    def client_address(self):
+        return self._client_address
+    @client_address.setter
+    def client_address(self, address):
+        if not address:
+            raise ValueError("Missing Address...")
+        self._client_address = address
+    
+    def insert_clients_db(self, db):
+        ...
+    def update_clients_db(self, db):
+        ...
+    def delete_clients_db(self, db):
         ...
 
 #---------------------------------------------------------------------------------------------------------------
@@ -131,7 +181,8 @@ class Transaction_Register(User):
                "generate certificate", "edit certificate", "approve certificate"]
     
     def __init__(self, user_id:int, username:str, job:str, transaction_id:int, action:str, description:str,
-                 date:str, hour:str, name:str="disabled", password:str="disabled"): 
+                 date:str, hour:str, name:str="disabled", password:str="disabled"):
+                  
         super().__init__(user_id, name, username, password, job)
         self.__transaction_id = transaction_id
         self.action = action
