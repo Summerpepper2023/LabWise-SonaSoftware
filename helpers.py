@@ -63,7 +63,7 @@ class User:
     
     @job.setter
     def job(self, job):
-        if job.lower() not in ["admin", "analist", "bpm"]:
+        if not job or job.lower() not in ["admin", "analist", "bpm"]:
             raise ValueError(f"Invalid Job {job} is not recognized as a valid job...")
         self._job = job
     
@@ -77,6 +77,87 @@ class User:
     def delete_users_db(self, db):
         ...
 
+#---------------------------------------------------------------------------------------------------------------
+#                                          SubClass Transaction_Register
+#---------------------------------------------------------------------------------------------------------------
+class Transaction_Register(User):
+
+    actions = ["delete product", "insert product", "edit product", "insert machine", "edit machine", "delete machine",
+               "insert client", "edit client", "delete client", "insert manufacturer", "edit manufacturer", "delete manufacturer",
+               "generate certificate", "edit certificate", "approve certificate"]
+    
+    def __init__(self, user_id:int, username:str, job:str, transaction_id:int, action:str, description:str,
+                 date:str, hour:str, name:str="disabled", password:str="disabled"):
+        
+        super().__init__(user_id, name, username, password, job)
+        self.__transaction_id = transaction_id
+        self.action = action
+        self.description = description
+        self.date = date
+        self.hour = hour
+    
+    def __str__(self):
+        return f"User id:{self.__user_id}\nUsername:{self.username}\nUser Job:{self.job}\nTransaction id:{self.__transaction_id}\nAction:{self.action}\nDescription:{self.description}\nDate:{self.date}\nHour:{self.hour}"
+    
+    @classmethod
+    def get_transaction(cls):
+        user_id = int(input("user_id: "))
+        username = input("username: ")
+        job = input("job: ")
+        transaction_id = input("transaction_id: ")
+        action = input("action: ")
+        description = input("description: ")
+        date = input("date: ")
+        hour = input("hour:")
+
+        return cls(user_id, username, job, transaction_id, action, description, date, hour)
+
+    @property
+    def action(self):
+        return self._action
+    @action.setter
+    def action(self, action):
+        actions = ["delete product", "insert product", "edit product", "insert machine", "edit machine", "delete machine",
+               "insert client", "edit client", "delete client", "insert manufacturer", "edit manufacturer", "delete manufacturer",
+               "generate certificate", "edit certificate", "approve certificate"]
+              
+        if not action or action.lower() not in actions:
+            raise ValueError("Missing Action...")
+        self._action = action
+    
+    @property
+    def description(self):
+        return self._description
+    @description.setter
+    def description(self, description):
+        if not description:
+            raise ValueError("Missing description...")
+        self._description = description
+    
+    @property
+    def date(self):
+        return self._date
+    @date.setter
+    def date(self, date):
+        if not date:
+            raise ValueError("Missing date...")
+        self._date = date
+    
+    @property
+    def hour(self):
+        return self._hour
+    @hour.setter
+    def hour(self, hour):
+        if not hour:
+            raise ValueError("Missing hour...")
+        self._hour = hour
+    
+    def insert_transactions_db(self, db):
+        ...
+    def update_transactions_db(self, db):
+        ...
+    def delete_transactions_db(self, db):
+        ...
 
 #---------------------------------------------------------------------------------------------------------------
 #                                            Class Product
