@@ -93,7 +93,7 @@ class Product:
         product_name = input("Name: ")
         active = input("Active: ")
         description = input("Description: ")
-        batch_number = input("Bactch: ")
+        batch_number = input("Batch: ")
         batch_size = input("batch_size: ")
         presentation = input("presentation: ")
         quantity = input("quantity: ")
@@ -118,7 +118,7 @@ class Product:
     def active(self, active):
         if not active:
             raise ValueError("Missing Active...")
-        self._active
+        self._active = active
     
     @property
     def description(self):
@@ -127,7 +127,7 @@ class Product:
     def description(self, description):
         if not description:
             raise ValueError("Missing Name...")
-        self._description
+        self._description = description
     
     @property
     def batch_number(self):
@@ -136,7 +136,7 @@ class Product:
     def batch_number(self, number):
         if not number:
             raise ValueError("Missing Batch Number...")
-        self._batch_number
+        self._batch_number = number
     
     @property
     def batch_size(self):
@@ -152,9 +152,9 @@ class Product:
         return self._presentation
     @presentation.setter
     def presentation(self, presentation):
-        presentations = ["ampolleta", "tabletas", "bioburden", "bolsa x 200ml", "tubo apirogeno x 30ml"]
-        if not presentation or presentation not in presentations:
-            raise ValueError("Invalid Presentation...")
+        presentations = ["ampolleta", "tableta", "bioburden", "bolsa x 200ml", "tubo apirogeno x 30ml"]
+        if not presentation or presentation.lower() not in presentations:
+            raise ValueError(f"{presentation} is not recognized as a valid presentation...")
         self._presentation = presentation
     
     @property
@@ -164,7 +164,7 @@ class Product:
     def quantity(self, quantity):
         if not quantity:
             raise ValueError("Missing Quantity...")
-        self.__quantity
+        self._quantity = quantity
     
     @property
     def manufacture_date(self):
@@ -179,13 +179,78 @@ class Product:
     def due_date(self):
         return self._due_date
     @due_date.setter
-    def due_setter(self, date):
+    def due_date(self, date):
         if not date:
             raise ValueError("Missing Due Date...")
+        self._due_date = date
     
     def insert_products_db(self, db):
         ...
     def update_products_db(self, db):
         ...
     def delete_products_db(self, db):
+        ...
+
+
+class Machine:
+    def __init__(self, machine_name:str, machine_id:int, operator:str, reference:str, branch:str):
+        self.machine_name = machine_name
+        self.__machine_id = machine_id
+        self.operator = operator
+        self.reference = reference
+        self.branch = branch
+
+    def __str__(self):
+        return (f"\nMachin Id:{self.__machine_id}\nMachine Name:{self.machine_name}\nOperator:{self.operator}\nReference:{self.reference}\nBranch:{self.branch}")
+    
+    @classmethod
+    def get_machine(cls):
+        machine_id = int(input("Machine id: "))
+        machine_name = input("Machine name: ")
+        operator = input("Operator: ")
+        reference = input("Reference: ")
+        branch = input("Branch: ")
+        return cls(machine_name, machine_id, operator, reference, branch)
+    
+    @property
+    def machine_name(self):
+        return self._machine_name
+    @machine_name.setter
+    def machine_name(self, name):
+        if not name:
+            raise ValueError("Missing name...")
+        self._machine_name = name
+    
+    @property
+    def operator(self):
+        return self._operator
+    @operator.setter
+    def operator(self, operator):
+        if not operator:
+            raise ValueError("Missing operator...")
+        self._operator = operator 
+    
+    @property
+    def reference(self):
+        return self._reference
+    @reference.setter
+    def reference(self, reference):
+        if not reference:
+            raise ValueError("Missing reference...")
+        self._reference = reference
+    
+    @property
+    def branch(self):
+        return self._branch
+    @branch.setter
+    def branch(self, branch):
+        if not branch:
+            raise ValueError("Missing branch...")
+        self._branch = branch
+    
+    def insert_machines_db(self, db):
+        ...
+    def update_machines_db(self, db):
+        ...
+    def delete_machines_db(self, db):
         ...
