@@ -131,14 +131,17 @@ class Manufacturer:
 #                                            Class Client
 #---------------------------------------------------------------------------------------------------------------
 class Client:
+    #We declare the contructor
     def __init__(self, client_id:int, name:str, address:str):
             self.__client_id  = client_id
             self.client_name = name
             self.client_address = address
 
+    #We declare the print method
     def __str__(self):
          return f"Client Id:{self.__client_id}\nName:{self.client_name}\nAddress:{self.client_address}"
     
+    #We declare the get method
     @classmethod
     def get_client(cls):
             client_id = int(input("Client id: "))
@@ -146,6 +149,7 @@ class Client:
             client_address = input("Clien Address: ")
             return cls(client_id, client_name, client_address)
     
+    #We declare setters and getters
     @property
     def client_name(self):
         return self._client_name
@@ -164,10 +168,13 @@ class Client:
             raise ValueError("Missing Address...")
         self._client_address = address
     
+    #We declare an instance method for inserting the client to the client's database
     def insert_clients_db(self, db):
         ...
+    #We declare an instance method for updating the client's information from the client's database  
     def update_clients_db(self, db):
         ...
+    #We declare an instance method for deleting the client of the client's database
     def delete_clients_db(self, db):
         ...
 
