@@ -105,7 +105,7 @@ class Manufacturer:
     @manufacturer_name.setter
     def manufacturer_name(self, name):
         if not name:
-            raise ValueError("Missing Name...")
+            raise ValueError("Missing Manufacturer Name...")
         self._manufacturer_name = name
     
     @property
@@ -114,7 +114,7 @@ class Manufacturer:
     @manufacturer_address.setter
     def manufacturer_address(self, address):
         if not address:
-            raise ValueError("Missing Address...")
+            raise ValueError("Missing Manufacturer Address...")
         self._manufacturer_address = address
     
     #We declare an instance method for inserting the manufacturer to the manufacturers's database
@@ -156,7 +156,7 @@ class Client:
     @client_name.setter
     def client_name(self, name):
         if not name:
-            raise ValueError("Missing Name...")
+            raise ValueError("Missing Client Name...")
         self._client_name = name
 
     @property
@@ -165,7 +165,7 @@ class Client:
     @client_address.setter
     def client_address(self, address):
         if not address:
-            raise ValueError("Missing Address...")
+            raise ValueError("Missing Client Address...")
         self._client_address = address
     
     #We declare an instance method for inserting the client to the client's database
@@ -263,14 +263,14 @@ class Transaction_Register(User):
 #---------------------------------------------------------------------------------------------------------------
 #                                            Class Product
 #---------------------------------------------------------------------------------------------------------------
-class Product:
+class Product(Client, Manufacturer):
     #We declare a class variable that storages the avialable presentations of a product.
     presentations = ["ampolleta", "tabletas", "bioburden"]
 
     #We declare the constructor method
-    def __init__(self, register_number:str, product_name:str, active:str, description:str, batch_number:str, batch_size:int, presentation:str,
-                 quantity:str, manufacture_date:str, due_date:str):  
-        self.__register_number = register_number
+    def __init__(self, product_id:str, product_name:str, active:str, description:str, batch_number:str, batch_size:int, presentation:str,
+                 quantity:str, manufacture_date:str, due_date:str, client_name:str, client_address:str, manufacturer_name:str, manufacturer_address:str):  
+        self.__product_id = product_id
         self.product_name = product_name
         self.active = active
         self.description = description
@@ -280,15 +280,19 @@ class Product:
         self.quantity = quantity
         self.manufacture_date = manufacture_date
         self.due_date = due_date
+        self.client_name = client_name
+        self.client_address = client_address
+        self.manufacturer_name = manufacturer_name
+        self.manufacturer_address = manufacturer_address
 
     #We declare a print method
     def __str__(self):
-        return f"Register number:{self.__register_number}\nName:{self.product_name}\nActive:{self.active}\nDescription:{self.description}\nBatch_number:{self.batch_number}\nBatch Size:{self.batch_size}\nPresentation:{self.presentation}\nQuantitiy:{self.quantity}\nManufacture Date:{self.manufacture_date}\nDue Date:{self.due_date}"
+        return f"Register number:{self.__product_id}\nName:{self.product_name}\nActive:{self.active}\nDescription:{self.description}\nBatch_number:{self.batch_number}\nBatch Size:{self.batch_size}\nPresentation:{self.presentation}\nQuantitiy:{self.quantity}\nManufacture Date:{self.manufacture_date}\nDue Date:{self.due_date}\nClient_name:{self.client_name}\nClient Address:{self.client_address}\nManufcaturer name:{self.manufacturer_name}\nManufacturer address:{self.manufacturer_address}"
     
     #We declare a class method to get the product's attributes
     @classmethod
     def get_product(cls):
-        register_number = input("Register Number: ")
+        product_id = int(input("Register Number: "))
         product_name = input("Name: ")
         active = input("Active: ")
         description = input("Description: ")
@@ -298,8 +302,13 @@ class Product:
         quantity = input("quantity: ")
         manufacture_date = input("manufacture_date: ")
         due_date = input("due_date: ")
+        client_name = input("client name: ")
+        client_address = input("Client Address: ")
+        manufacturer_name = input("Manufacturer name: ")
+        manufacturer_address = input("Mnufacturer Address: ")
 
-        return cls(register_number, product_name, active, description, batch_number, batch_size, presentation, quantity, manufacture_date, due_date)
+        return cls(product_id, product_name, active, description, batch_number, batch_size, presentation, quantity, 
+                   manufacture_date, due_date, client_name, client_address, manufacturer_name, manufacturer_address)
     
     #We declare the setters and getters of the properties (protected attributes)
     @property
@@ -394,7 +403,163 @@ class Product:
     def delete_products_db(self, db):
         ...
 
+#---------------------------------------------------------------------------------------------------------------
+#                                            Class Product Register
+#---------------------------------------------------------------------------------------------------------------
+class Product_register(Product):
+    def __init__(self, register_id:int, entrance_date:str, entrance_inCharge:str, analysis_purpose:str, entrance_temp:str, analysis:str,
+                 analysis_init_date:str, analyisis_end_date:str, analist_inCharge:str, certificate_date:str, certificate_id:str,
+                 product_id:str, product_name:str, active:str, description:str, batch_number:str, batch_size:str, presentation:str, quantity:str,
+                 manufacture_date:str, due_date:str, client_name:str, client_address:str, manufacturer_name:str, manufacturer_address:str):
+        
+        super().__init__(product_id, product_name, active, description, batch_number, batch_size, presentation, quantity, manufacture_date,
+                         due_date, client_name, client_address, manufacturer_name, manufacturer_address)
+        
+        self.__register_id = register_id
+        self.entrance_date = entrance_date
+        self.entrance_inCharge = entrance_inCharge
+        self.analysis_purpose = analysis_purpose
+        self.entrance_temp = entrance_temp
+        self.analysis = analysis
+        self.analysis_init_date = analysis_init_date
+        self.analysis_end_date = analyisis_end_date
+        self.analist_inCharge = analist_inCharge
+        self.certificate_date = certificate_date
+        self.certificate_id = certificate_id
+    
+    def __str__(self):
+        return f"Register_id:{self.__register_id}\nEntrance date:{self.entrance_date}\nEntrance inCharge:{self.entrance_inCharge}\nAnalysis Purpose:{self.analysis_purpose}\nEntrance temp:{self.entrance_temp}\nAnalysis:{self.analysis}\nAnalysisi_init_date:{self.analysis_init_date}\nAnalysis end date:{self.analysis_end_date}\nAnalist_incharge:{self.analist_inCharge}\nCertificate date:{self.certificate_date}\nCertificate id:{self.certificate_id}"
+    
+    @classmethod
+    def get_ProductRegister(cls):
+        register_id = int(input("register_id: "))
+        entrance_date = input("entrance_date: ")
+        entrance_inCharge = input("entrance_inCharge: ")
+        analysis_purpose = input("analysis_purpose: ")
+        entrance_temp = input("entrance_temp: ")
+        analysis = input("analysis: ")
+        analysis_init_date = input("analysis_init_date: ")
+        analysis_end_date = input("analyisis_end_date: ")
+        analist_inCharge = input("analist_inCharge: ")
+        certificate_date = input("certificate_date: ")
+        certificate_id = input("certificate_id: ")
+        product_id = input("product_id: ")
+        product_name = input("Product name: ")
+        active = input("active: ")
+        description = input("description: ")
+        batch_number = input("batch number: ")
+        batch_size = input("batch size: ")
+        presentation = input("presentation: ")
+        quantity = input("quantity: ")
+        manufacture_date = input("manufacture date: ")
+        due_date = input("due date: ")
+        client_name = input("client name: ")
+        client_address = input("client address: ")
+        manufacturer_name = input("manufacture name: ")
+        manufacturer_address = input("manufacture address: ")
 
+        return cls(register_id, entrance_date, entrance_inCharge, analysis_purpose, entrance_temp, analysis, analysis_init_date,
+                   analysis_end_date, analist_inCharge, certificate_date, certificate_id, product_id, product_name, active, description,
+                   batch_number, batch_size, presentation, quantity, manufacture_date, due_date, client_name, client_address,
+                   manufacturer_name, manufacturer_address)
+    
+    @property
+    def entrance_date(self):
+        return self._entrance_date
+    @entrance_date.setter
+    def entrance_date(self, date):
+        if not date:
+            raise ValueError("Missing Entrance Date...")
+        self._entrance_date = date
+
+    @property
+    def entrance_inCharge(self):
+        return self._entrance_inCharge
+    @entrance_inCharge.setter
+    def entrance_inCharge(self, name):
+        if not name:
+            raise ValueError("Missing Entrance inCharge Name...")
+        self._entrance_inCharge = name
+    
+    @property
+    def analysis_purpose(self):
+        return self._analysis_purpose
+    @analysis_purpose.setter
+    def analysis_purpose(self, purpose):
+        if not purpose:
+            raise ValueError("Missing Analysis Purpose...")
+        self._analysis_purpose = purpose
+    
+    @property
+    def entrance_temp(self):
+        return self._entrance_temp
+    @entrance_temp.setter
+    def entrance_temp(self, temp):
+        if not temp:
+            raise ValueError("Missing Entrance Temp...")
+        self._entrance_temp = temp
+    
+    @property
+    def analysis(self):
+        return self._analysis
+    @analysis.setter
+    def analysis(self, analysis):
+        if not analysis:
+            raise ValueError("Missing Analysis...")
+        self._analysis = analysis
+        
+    @property
+    def analysis_init_date(self):
+        return self._analysis_init_date
+    @analysis_init_date.setter
+    def analysis_init_date(self, date):
+        if not date:
+            raise ValueError("Missing analysis init date...")
+        self._analysis_init_date = date
+
+    @property
+    def analysis_end_date(self):
+        return self._analysis_end_date
+    @analysis_end_date.setter
+    def analysis_end_date(self, date):
+        if not date:
+            raise ValueError("Missing analysis end date...")
+        self._analysis_end_date = date
+    
+    @property
+    def analist_inCharge(self):
+        return self._analist_inCharge
+    @analist_inCharge.setter
+    def analist_inCharge(self, name):
+        if not name:
+            raise ValueError("Missing analist in charge name...")
+        self._analist_inCharge = name
+    
+    @property
+    def certificate_date(self):
+        return self._certificate_date
+    @certificate_date.setter
+    def certificate_date(self, date):
+        if not date:
+            raise ValueError("Missing certificate date...")
+        self._certificate_date = date
+    
+    @property
+    def certificate_id(self):
+        return self._certificate_id
+    @certificate_id.setter
+    def certificate_id(self, id):
+        if not id:
+            raise ValueError("Missing certificate id...")
+        self._certificate_id = id
+        
+    
+    def insert_registers_db(self, db):
+        ...
+    def update_registers_db(self, db):
+        ...
+    def delte_inserts_db(self, db):
+        ...
 #---------------------------------------------------------------------------------------------------------------
 #                                            Class Machine
 #---------------------------------------------------------------------------------------------------------------
